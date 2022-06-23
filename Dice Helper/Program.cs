@@ -30,9 +30,9 @@ while (loop)
             {
                 Console.WriteLine("Invalid dice expression, try again.\n");
             }
-
-
-            
+            break;
+        case ("prob"):
+            Console.WriteLine(dice.Prob(inputArray[1],inputArray[2],inputArray[3]) + "\n");
             break;
         case ("help"):
             Console.Clear();
