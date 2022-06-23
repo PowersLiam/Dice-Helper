@@ -3,7 +3,8 @@ using System.Text.RegularExpressions;
 
 bool loop = true;
 Random random = new Random();
-String diceEx = "(^[1-9][0-9]{0,2}[d][1-9][0-9]{0,2}$)|(^[d][1-9][0-9]{0,2}$)";
+String diceEx = "(^[1-9][0-9]*[d][1-9][0-9]*$)|(^[d][1-9][0-9]*$)";
+String probEx = @"^[1-9][0-9]*\+?$";
 
 while (loop)
 {
@@ -19,12 +20,13 @@ while (loop)
         case ("exit"): 
             loop = false;
             break;
+        case ("clear"):
+            Console.Clear();
+            break;
         case ("roll"):
-            if(Regex.IsMatch(inputArray[1], diceEx, RegexOptions.IgnoreCase)){
+            if(Regex.IsMatch(inputArray[1], diceEx)){
                 if (inputArray[1][0] == 'd') inputArray[1] = '1' + inputArray[1];
-                Console.WriteLine(dice.Roll(inputArray[1]));
-                Console.ReadLine();
-                Console.Clear();
+                Console.WriteLine(dice.Roll(inputArray[1]) + "\n");
             }
             else
             {
@@ -32,16 +34,45 @@ while (loop)
             }
             break;
         case ("prob"):
-            Console.WriteLine(dice.Prob(inputArray[1],inputArray[2],inputArray[3]) + "\n");
+            if (Regex.IsMatch(inputArray[1], diceEx))
+            {
+                if (inputArray.Length == 4)
+                {
+                    if (inputArray[1][0] == 'd') inputArray[1] = '1' + inputArray[1];
+                    if (Regex.IsMatch(inputArray[2], probEx) && Regex.IsMatch(inputArray[3], probEx))
+                    {
+                        Console.WriteLine(dice.Prob(inputArray[1], inputArray[2], inputArray[3]) + "\n");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid dice success quantity/target.\n");
+                    }
+                }
+                else if (inputArray.Length < 4)
+                {
+                    Console.WriteLine("Not enough information.\n");
+                }
+                else
+                {
+                    Console.WriteLine("Too much information, invalid phrasing.\n");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid dice expression, try again.\n");
+            }
             break;
         case ("help"):
             Console.Clear();
             Console.WriteLine("Here are the acceptable commands for this program" +
                 "\n exit (end program)" +
-                "\n roll #d# (#=a number up to 3 digits, the former is amount of dice, the latter is the number of sides)\n");
+                "\n clear (clear console)" +
+                "\n roll #d# (#=a number greater than 0, the former is amount of dice, the latter is the number of sides)" +
+                "\n prob #d# #(+) #(+) (#=a number greater than 0 and + is option to signify at least this number, " +
+                "\n      1st is amount of dice, 2nd is number of sides, 3rd quantity of target results, 3d is target result)\n");
             break;
         default: 
-            Console.WriteLine("Invalid input, try again.\n"); 
+            Console.WriteLine("Invalid input, try again or type 'help' for commands.\n"); 
             break;
     }
 }
