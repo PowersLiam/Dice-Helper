@@ -42,48 +42,33 @@ namespace Dice_Helper
             int n = Int32.Parse(rollArray[0]);  //number of dice
             int s = Int32.Parse(rollArray[1]);  //number of sides
             double p = 1/(double)s;  //probability of rolling any value from a die
-
             int r;  //number of successes
-
             int y;  //the target number(s), what would be considered a success with this roll
-
             double nCr; //number of combinations
 
-            
+            if (yString.Contains("+"))
+            {
+                y = Int32.Parse(yString.Remove(yString.Length - 1, 1));
+                p = (s - y + 1) / (double)s;
+            }
+            else
+            {
+                y = Int32.Parse(yString);
+            }
+
             if (rString.Contains("+")){
                 r = Int32.Parse(rString.Remove(rString.Length - 1, 1));
-                nCr = CalcNCR(n, r);
-
-                if (yString.Contains("+"))
+                for (int ir = r; ir <= n; ir++)
                 {
-                    y = Int32.Parse(yString.Remove(yString.Length - 1, 1));
-                    p = (s - y + 1) / (double)s;
-                    result = AtLeastR(n, r, p);
+                    nCr = CalcNCR(n, ir);
+                    result += nCr * Math.Pow(p, ir) * Math.Pow(1 - p, n - ir);
                 }
-                else
-                {
-                    y = Int32.Parse(yString);
-                    result = AtLeastR(n, r, p);
-                }
-
-                
             }
             else
             {
                 r = Int32.Parse(rString);
                 nCr = CalcNCR(n, r);
-
-                if (yString.Contains("+"))
-                {
-                    y = Int32.Parse(yString.Remove(yString.Length - 1, 1));
-                    p = (s - y + 1) / (double)s;
-                    result = AtLeastR(n, r, p);
-                }
-                else
-                {
-                    y = Int32.Parse(yString);
-                    result = AtLeastR(n, r, p);
-                }
+                result = nCr * Math.Pow(p, r) * Math.Pow(1 - p, n - r);
             }
             
             result = Math.Round(result * 100, 3);
@@ -102,18 +87,6 @@ namespace Dice_Helper
                 num = num * i;
             }
             return num;
-        }
-        
-        private double AtLeastR(int n, int r, double p)
-        {
-            double result = 0;
-            double nCr;
-            for (int ir = r; ir <= n; ir++)
-            {
-                nCr = CalcNCR(n, ir);
-                result += nCr * Math.Pow(p, ir) * Math.Pow(1 - p, n - ir);
-            }
-            return result;
         }
 
         private double CalcNCR(int n, int r)
