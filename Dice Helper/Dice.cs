@@ -52,36 +52,38 @@ namespace Dice_Helper
             
             if (rString.Contains("+")){
                 r = Int32.Parse(rString.Remove(rString.Length - 1, 1));
-                nCr = (double)Fact(n) / ((double)Fact(r) * (double)Fact(n - r));
+                nCr = CalcNCR(n, r);
 
                 if (yString.Contains("+"))
                 {
                     y = Int32.Parse(yString.Remove(yString.Length - 1, 1));
+                    p = (s - y + 1) / (double)s;
+                    result = AtLeastR(n, r, p);
                 }
                 else
                 {
                     y = Int32.Parse(yString);
+                    result = AtLeastR(n, r, p);
                 }
-                for (int ir = r; ir <= n; ir++)
-                {
-                    nCr = (double)Fact(n) / ((double)Fact(ir) * (double)Fact(n - ir));
-                    result += nCr * Math.Pow(p, ir) * Math.Pow(1 - p, n - ir);
-                }
+
+                
             }
             else
             {
                 r = Int32.Parse(rString);
-                nCr = (double)Fact(n) / ((double)Fact(r) * (double)Fact(n - r));
+                nCr = CalcNCR(n, r);
 
                 if (yString.Contains("+"))
                 {
-                    y = Int32.Parse(yString.Remove(yString.Length - 1, 1)); 
+                    y = Int32.Parse(yString.Remove(yString.Length - 1, 1));
+                    p = (s - y + 1) / (double)s;
+                    result = AtLeastR(n, r, p);
                 }
                 else
                 {
                     y = Int32.Parse(yString);
+                    result = AtLeastR(n, r, p);
                 }
-                result = nCr * Math.Pow(p, r) * Math.Pow(1 - p, n - r);
             }
             
             result = Math.Round(result * 100, 3);
@@ -100,6 +102,23 @@ namespace Dice_Helper
                 num = num * i;
             }
             return num;
+        }
+        
+        private double AtLeastR(int n, int r, double p)
+        {
+            double result = 0;
+            double nCr;
+            for (int ir = r; ir <= n; ir++)
+            {
+                nCr = CalcNCR(n, ir);
+                result += nCr * Math.Pow(p, ir) * Math.Pow(1 - p, n - ir);
+            }
+            return result;
+        }
+
+        private double CalcNCR(int n, int r)
+        {
+            return (double)Fact(n) / ((double)Fact(r) * (double)Fact(n - r));
         }
     }
 }
