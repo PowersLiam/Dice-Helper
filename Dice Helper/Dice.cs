@@ -14,7 +14,7 @@ namespace Dice_Helper
             String[] rollArray = new String[2];
             rollArray = input.Split('d');
             int quantity = Int32.Parse(rollArray[0]);
-            int die = Int32.Parse(rollArray[1]);
+            int sides = Int32.Parse(rollArray[1]);
 
             String results = "";
 
@@ -22,11 +22,11 @@ namespace Dice_Helper
             {
                 if (i == 0)
                 {
-                    results += random.Next(1, die + 1);
+                    results += random.Next(1, sides + 1);
                 }
                 else
                 {
-                    results += ", " + random.Next(1, die + 1);
+                    results += ", " + random.Next(1, sides + 1);
                 }
             }
             return results;

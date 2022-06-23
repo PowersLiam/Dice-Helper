@@ -28,14 +28,20 @@ while (loop)
             }
             else
             {
-                Console.WriteLine("Invalid dice expression, try again.");
+                Console.WriteLine("Invalid dice expression, try again.\n");
             }
 
 
             
             break;
+        case ("help"):
+            Console.Clear();
+            Console.WriteLine("Here are the acceptable commands for this program" +
+                "\n exit (end program)" +
+                "\n roll #d# (#=a number up to 3 digits, the former is amount of dice, the latter is the number of sides)\n");
+            break;
         default: 
-            Console.WriteLine("Invalid input, try again."); 
+            Console.WriteLine("Invalid input, try again.\n"); 
             break;
     }
 }
