@@ -24,14 +24,28 @@ while (loop)
             Console.Clear();
             break;
         case ("roll"):
-            if(Regex.IsMatch(inputArray[1], diceEx)){
-                if (inputArray[1][0] == 'd') inputArray[1] = '1' + inputArray[1];
-                Console.WriteLine(dice.Roll(inputArray[1]) + "\n");
+            if (inputArray.Length > 2)
+            {
+                Console.WriteLine("Too much information, invalid phrasing.\n");
+                File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
+            }
+            else if (inputArray.Length < 2)
+            {
+                Console.WriteLine("Not enough information.\n");
+                File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
             }
             else
             {
-                Console.WriteLine("Invalid dice expression, try again.\n");
-                File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
+                if (Regex.IsMatch(inputArray[1], diceEx))
+                {
+                    if (inputArray[1][0] == 'd') inputArray[1] = '1' + inputArray[1];
+                    Console.WriteLine(dice.Roll(inputArray[1]) + "\n");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid dice expression, try again.\n");
+                    File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
+                }
             }
             break;
         case ("prob"):
@@ -68,7 +82,28 @@ while (loop)
             }
             break;
         case ("chart"):
-            Console.WriteLine(dice.Chart(inputArray[1]));
+            if (inputArray.Length > 2)
+            {
+                Console.WriteLine("Too much information, invalid phrasing.\n");
+                File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
+            }else if (inputArray.Length < 2)
+            {
+                Console.WriteLine("Not enough information.\n");
+                File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
+            }
+            else
+            {
+                if (Regex.IsMatch(inputArray[1], diceEx))
+                {
+                    if (inputArray[1][0] == 'd') inputArray[1] = '1' + inputArray[1];
+                    dice.Chart(inputArray[1]);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid dice expression, try again.\n");
+                    File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
+                }
+            }
             break;
         case ("help"):
             Console.Clear();
@@ -77,7 +112,9 @@ while (loop)
                 "\n clear (clear console)" +
                 "\n roll #d# (#=a number greater than 0, the former is amount of dice, the latter is the number of sides)" +
                 "\n prob #d# #(+) #(+) (#=a number greater than 0 and + is option to signify at least this number, " +
-                "\n      1st is amount of dice, 2nd is number of sides, 3rd quantity of target results, 3d is target result)\n");
+                "\n      1st is amount of dice, 2nd is number of sides, 3rd quantity of target results, 3d is target result)" +
+                "\n chart #d# (#=a number greater than 0,the former is amount of dice, the latter is the number of sides," +
+                "\n      creates a chart of probabilities for every success condition (except 1+) at any possible amount)\n");
             break;
         default: 
             Console.WriteLine("Invalid input, try again or type 'help' for commands.\n");

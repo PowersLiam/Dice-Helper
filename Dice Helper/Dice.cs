@@ -32,9 +32,9 @@ namespace Dice_Helper
             return results;
         }
 
-        public String Prob(String diceInput, String rString, String yString)
+        public String Prob(String diceInput, String rString, String yString) //Formula: P(X=r) = nCr * p^r * (1-p)^(n-r)
         {
-            String output;
+            String output = "";
             double result = 0;
             Random random = new Random();
             String[] rollArray = new String[2];
@@ -75,7 +75,12 @@ namespace Dice_Helper
             switch (result)
             {
                 case (100):
-                    output = "99.999%";
+                    if (yString != "1+") 
+                    { 
+                        output = "99.999%"; 
+                    } else { 
+                        output = result.ToString() + "%"; 
+                    }
                     break;
                 case (0):
                     output = "<0.001%";
@@ -104,45 +109,59 @@ namespace Dice_Helper
             return (double)Fact(n) / ((double)Fact(r) * (double)Fact(n - r));
         }
 
-        public String Chart(String diceInput)
+        public void Chart(String diceInput)
         {
+            
+            
             String[] rollArray = new String[2];
             rollArray = diceInput.Split('d');
             int n = Int32.Parse(rollArray[0]);  //number of dice
             int s = Int32.Parse(rollArray[1]);  //number of sides
-            String output = "\n _| x = successes \n y = success condition \n\n";
-            String temp;
+            String tempX;
+            String tempY;
+            String[,] chart = new string[s,n+1];
+            
+            
 
-            output += "      ";
+            chart[0, 0] = "      ";
 
             for (int i = 1; i <= n; i++)
             {
-                
-                output += "    " + i + "+    ";
+                chart[0,i] = "    " + i + "+    ";
             }
-
-            output += "\n";
 
             for (int yAxis = 2; yAxis <= s; yAxis++)
             {
-                if (yAxis < 10) output += " ";
-                output += " " + yAxis + "+  ";
+                tempY = "";
+                if (yAxis < 10) tempY += " ";
+                tempY += yAxis;
+                chart[yAxis-1,0] = " " + tempY + "+  ";
                 for (int xAxis = 1; xAxis <= n; xAxis++)
                 {
-                    output += "|";
-                    temp = Prob(diceInput, xAxis.ToString() + "+", yAxis.ToString() + "+");
+                    tempX = Prob(diceInput, xAxis.ToString() + "+", yAxis.ToString() + "+");
                     //ensure consistent length of result
-                    while (temp.Length < 7)
+                    while (tempX.Length < 7)
                     {
-                        temp += " ";
+                        tempX += " ";
                     }
-                    output += " " + temp + " ";
+                    chart[yAxis-1, xAxis] = " " + tempX + " ";
                 }
-                output += "\n";
             }
-            output += "\n";
 
-            return output;
+            //Print Chart
+            Console.WriteLine("\n _| x = successes \n y = success condition \n\n");
+
+            for (int printY = 0; printY < chart.GetLength(0); printY++)
+            {
+                for (int printX = 0; printX < chart.GetLength(1); printX++)
+                {
+                    Console.Write(chart[printY, printX]);
+                    if (printX < chart.GetLength(1) - 1 && printX > 0 && printY > 0) Console.Write("|");
+                }
+                Console.Write("\n");
+            }
+            Console.Write("\n");
+
         }
     }
 }
