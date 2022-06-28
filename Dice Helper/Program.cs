@@ -31,6 +31,7 @@ while (loop)
             else
             {
                 Console.WriteLine("Invalid dice expression, try again.\n");
+                File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
             }
             break;
         case ("prob"):
@@ -46,20 +47,24 @@ while (loop)
                     else
                     {
                         Console.WriteLine("Invalid dice success quantity/target.\n");
+                        File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
                     }
                 }
                 else if (inputArray.Length < 4)
                 {
                     Console.WriteLine("Not enough information.\n");
+                    File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
                 }
                 else
                 {
                     Console.WriteLine("Too much information, invalid phrasing.\n");
+                    File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
                 }
             }
             else
             {
                 Console.WriteLine("Invalid dice expression, try again.\n");
+                File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
             }
             break;
         case ("help"):
@@ -72,7 +77,8 @@ while (loop)
                 "\n      1st is amount of dice, 2nd is number of sides, 3rd quantity of target results, 3d is target result)\n");
             break;
         default: 
-            Console.WriteLine("Invalid input, try again or type 'help' for commands.\n"); 
+            Console.WriteLine("Invalid input, try again or type 'help' for commands.\n");
+            File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
             break;
     }
 }
