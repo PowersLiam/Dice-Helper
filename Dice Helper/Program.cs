@@ -67,6 +67,9 @@ while (loop)
                 File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
             }
             break;
+        case ("chart"):
+            Console.WriteLine(dice.Chart(inputArray[1]));
+            break;
         case ("help"):
             Console.Clear();
             Console.WriteLine("Here are the acceptable commands for this program" +

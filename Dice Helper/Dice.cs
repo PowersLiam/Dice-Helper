@@ -72,8 +72,18 @@ namespace Dice_Helper
             }
             
             result = Math.Round(result * 100, 3);
-            output = result.ToString() + "%";
-            
+            switch (result)
+            {
+                case (100):
+                    output = "99.999%";
+                    break;
+                case (0):
+                    output = "<0.001%";
+                    break;
+                default:
+                    output = result.ToString() + "%";
+                    break;
+            }
 
             return output;
         }
@@ -92,6 +102,47 @@ namespace Dice_Helper
         private double CalcNCR(int n, int r)
         {
             return (double)Fact(n) / ((double)Fact(r) * (double)Fact(n - r));
+        }
+
+        public String Chart(String diceInput)
+        {
+            String[] rollArray = new String[2];
+            rollArray = diceInput.Split('d');
+            int n = Int32.Parse(rollArray[0]);  //number of dice
+            int s = Int32.Parse(rollArray[1]);  //number of sides
+            String output = "\n _| x = successes \n y = success condition \n\n";
+            String temp;
+
+            output += "      ";
+
+            for (int i = 1; i <= n; i++)
+            {
+                
+                output += "    " + i + "+    ";
+            }
+
+            output += "\n";
+
+            for (int yAxis = 2; yAxis <= s; yAxis++)
+            {
+                if (yAxis < 10) output += " ";
+                output += " " + yAxis + "+  ";
+                for (int xAxis = 1; xAxis <= n; xAxis++)
+                {
+                    output += "|";
+                    temp = Prob(diceInput, xAxis.ToString() + "+", yAxis.ToString() + "+");
+                    //ensure consistent length of result
+                    while (temp.Length < 7)
+                    {
+                        temp += " ";
+                    }
+                    output += " " + temp + " ";
+                }
+                output += "\n";
+            }
+            output += "\n";
+
+            return output;
         }
     }
 }
