@@ -8,6 +8,10 @@ namespace Dice_Helper
 {
     internal class Dice
     {
+        private List<string> rolls = new List<string>();
+        private List<string> probs = new List<string>();
+        private List<string> charts = new List<string>();
+
         public String Roll(String input)
         {
             Random random = new Random();
@@ -29,10 +33,11 @@ namespace Dice_Helper
                     results += ", " + random.Next(1, sides + 1);
                 }
             }
+            rolls.Add(input + ": " + results);
             return results;
         }
 
-        public String Prob(String diceInput, String rString, String yString) //Formula: P(X=r) = nCr * p^r * (1-p)^(n-r)
+        public String Prob(String diceInput, String rString, String yString, bool chart) //Formula: P(X=r) = nCr * p^r * (1-p)^(n-r)
         {
             String output = "";
             double result = 0;
@@ -89,7 +94,7 @@ namespace Dice_Helper
                     output = result.ToString() + "%";
                     break;
             }
-
+            if(!chart) probs.Add(diceInput + " " + rString + " " + yString + ": " + output);
             return output;
         }
 
@@ -113,7 +118,7 @@ namespace Dice_Helper
 
         public void Chart(String diceInput)
         {
-            
+            charts.Add(diceInput);
             
             String[] rollArray = new String[2];
             rollArray = diceInput.Split('d');
@@ -144,7 +149,7 @@ namespace Dice_Helper
                 chart[yAxis-1,0] = " " + tempY + "+  ";
                 for (int xAxis = 1; xAxis <= n; xAxis++)
                 {
-                    tempX = Prob(diceInput, xAxis.ToString() + "+", yAxis.ToString() + "+");
+                    tempX = Prob(diceInput, xAxis.ToString() + "+", yAxis.ToString() + "+", true);
                     //ensure consistent length of result
                     while (tempX.Length < 7)
                     {
@@ -168,6 +173,36 @@ namespace Dice_Helper
             }
             Console.Write("\n");
 
+        }
+
+        public string PrintRolls()
+        {
+            String output = "\n Rolls \n";
+            foreach(string roll in rolls)
+            {
+                output += "   " + roll + "\n";
+            }
+            return output;
+        }
+
+        public string PrintCharts()
+        {
+            String output = "\n Charts \n";
+            foreach (string chart in charts)
+            {
+                output += "   " + chart + "\n";
+            }
+            return output;
+        }
+
+        public string PrintProbs()
+        {
+            String output = "\n Probabilities \n";
+            foreach (string prob in probs)
+            {
+                output += "   " + prob + "\n";
+            }
+            return output;
         }
     }
 }

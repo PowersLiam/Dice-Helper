@@ -5,6 +5,7 @@ bool loop = true;
 Random random = new Random();
 String diceEx = "(^([1-9][0-9]?|100)[d]([1-9][0-9]?|100)$)|(^[d]([1-9][0-9]?|100)$)";
 String probEx = @"^[1-9][0-9]*\+?$";
+Dice dice = new Dice();
 
 while (loop)
 {
@@ -13,7 +14,6 @@ while (loop)
     if (input == null) input = "";
     input = input.ToLower();
     String[] inputArray = input.Split(' ');
-    Dice dice = new Dice();
 
     switch (inputArray[0])
     {
@@ -56,7 +56,7 @@ while (loop)
                     if (inputArray[1][0] == 'd') inputArray[1] = '1' + inputArray[1];
                     if (Regex.IsMatch(inputArray[2], probEx) && Regex.IsMatch(inputArray[3], probEx))
                     {
-                        Console.WriteLine(dice.Prob(inputArray[1], inputArray[2], inputArray[3]) + "\n");
+                        Console.WriteLine(dice.Prob(inputArray[1], inputArray[2], inputArray[3], false) + "\n");
                     }
                     else
                     {
@@ -112,6 +112,28 @@ while (loop)
                 {
                     Console.WriteLine("Invalid dice expression, try again.\n");
                     File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
+                }
+            }
+            break;
+        case ("see"):
+            if(inputArray.Length < 2)
+            {
+                Console.WriteLine("Not enough information, invalid phasing.\n");
+                File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
+            }
+            else if (inputArray.Length > 2)
+            {
+                Console.WriteLine("Too much information, invalid phasing.\n");
+                File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
+            }
+            else
+            {
+                switch (inputArray[1])
+                {
+                    case ("rolls"): Console.WriteLine(dice.PrintRolls()); break;
+                    case ("probs"): Console.WriteLine(dice.PrintProbs()); break;
+                    case ("charts"): Console.WriteLine(dice.PrintCharts()); break;
+                    default: Console.WriteLine("Invalid input, try again or type 'help' for commands.\n"); break;
                 }
             }
             break;
