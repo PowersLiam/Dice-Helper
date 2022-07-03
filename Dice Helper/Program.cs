@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 bool loop = true;
 Random random = new Random();
-String diceEx = "(^[1-9][0-9]*[d][1-9][0-9]*$)|(^[d][1-9][0-9]*$)";
+String diceEx = "(^([1-9][0-9]?|100)[d]([1-9][0-9]?|100)$)|(^[d]([1-9][0-9]?|100)$)";
 String probEx = @"^[1-9][0-9]*\+?$";
 
 while (loop)
@@ -96,7 +96,17 @@ while (loop)
                 if (Regex.IsMatch(inputArray[1], diceEx))
                 {
                     if (inputArray[1][0] == 'd') inputArray[1] = '1' + inputArray[1];
-                    dice.Chart(inputArray[1]);
+                    var temp = inputArray[1].Split('d');
+                    if (Int32.Parse(temp[0]) <= 20)
+                    {
+                        dice.Chart(inputArray[1]);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Cannot chart more than 20 dice.\n");
+                        File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "InvalidInputLog.txt"), input + "\n");
+                    }
+                    
                 }
                 else
                 {

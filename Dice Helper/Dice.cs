@@ -93,15 +93,17 @@ namespace Dice_Helper
             return output;
         }
 
-        private int Fact(int num) //Factorial Function
+        private double Fact(int num) //Factorial Function
         {
+            double output = num;
+
             if (num == 0) return 1; //this is just how factorials work
 
-            for (int i = num-1; i > 1; i--)
+            for (int i = num - 1; i > 1; i--)
             {
-                num = num * i;
+                output = output * i;
             }
-            return num;
+            return output;
         }
 
         private double CalcNCR(int n, int r)
@@ -127,13 +129,17 @@ namespace Dice_Helper
 
             for (int i = 1; i <= n; i++)
             {
-                chart[0,i] = "    " + i + "+    ";
+                if(i < 10) chart[0, i] = "    ";
+                if (i >= 10) chart[0, i] = "   ";
+                chart[0, i] += i + "+";
+                chart[0, i] += "    ";
             }
 
             for (int yAxis = 2; yAxis <= s; yAxis++)
             {
                 tempY = "";
-                if (yAxis < 10) tempY += " ";
+                if (yAxis < 10) tempY += "  ";
+                if (yAxis < 100 && yAxis >= 10) tempY += " ";
                 tempY += yAxis;
                 chart[yAxis-1,0] = " " + tempY + "+  ";
                 for (int xAxis = 1; xAxis <= n; xAxis++)
