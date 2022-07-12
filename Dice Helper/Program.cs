@@ -146,7 +146,9 @@ while (loop)
                 "\n prob #d# #(+) #(+) (#=a number greater than 0 and + is option to signify at least this number, " +
                 "\n      1st is amount of dice, 2nd is number of sides, 3rd quantity of target results, 3d is target result)" +
                 "\n chart #d# (#=a number greater than 0,the former is amount of dice, the latter is the number of sides," +
-                "\n      creates a chart of probabilities for every success condition (except 1+) at any possible amount)\n");
+                "\n      creates a chart of probabilities for every success condition (except 1+) at any possible amount)" +
+                "\n see (\"rolls\" or \"probs\" or \"charts\") (shows recorded log of all rolls, probabilities, or chart requests " +
+                "\n      from the current session)\n");
             break;
         default: 
             Console.WriteLine("Invalid input, try again or type 'help' for commands.\n");
