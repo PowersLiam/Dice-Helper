@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dice_Helper
 {
-    internal class Dice
+    public class Dice
     {
         private List<string> rolls = new List<string>();
         private List<string> probs = new List<string>();
