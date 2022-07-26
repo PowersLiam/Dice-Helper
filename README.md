@@ -14,4 +14,12 @@ see ("rolls" or "probs" or "charts") (shows recorded log of all rolls, probabili
 
 You can type "help" in the application for this information as well.
 
-Features a main loop to repeatedly enter commands, input validation utilizing regular expressions, invalid inputs being written to a text file, 3 unit tests to make sure the program is functioning as intended, and a chart command to visualize probability data.
+The main class is Program.cs, it contains the main loop
+There is also Dice.cs, this contains methods for performing functions and calculations as well as having lists of all results created from those methods called using this object which can be viewed in program
+
+FEATURES
+1. A main loop to repeatedly enter commands. Found in Program.cs.
+2. Input validation utilizing regular expressions. Found in Program.cs.
+3. Invalid inputs being written to a text file. Found in Program.cs.
+4. 3 unit tests to make sure the program is functioning as intended. Found in DiceTest solution in the UnitTest1.cs.
+5. A chart command to visualize probability data. Called in main loop in Progeam.cs, but calculated and printed to console in Dice.cs.
