@@ -20,6 +20,6 @@ There is also Dice.cs, this contains methods for performing functions and calcul
 FEATURES
 1. A main loop to repeatedly enter commands. Found in Program.cs.
 2. Input validation utilizing regular expressions. Found in Program.cs.
-3. Invalid inputs being written to a text file. Code found in Program.cs, InvalidInputLog.txt file found in Dice Helper/bin/Debug/net6.0.
+3. Invalid inputs being written to a text file. Code found in Program.cs, InvalidInputLog.txt file found in the same folder as the exe.
 4. 3 unit tests to make sure the program is functioning as intended. Found in DiceTest solution in the UnitTest1.cs.
 5. A chart command to visualize probability data. Called in main loop in Progeam.cs, but calculated and printed to console in Dice.cs.
